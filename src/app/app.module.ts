@@ -1,20 +1,22 @@
+import { AuthGuard } from './app-management/service/auth-guard';
 import { NgModule } from '@angular/core';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppLayoutModule } from './layout/app.layout.module';
-import { NotfoundComponent } from './demo/components/notfound/notfound.component';
-import { ProductService } from './demo/service/product.service';
-import { CountryService } from './demo/service/country.service';
-import { CustomerService } from './demo/service/customer.service';
-import { EventService } from './demo/service/event.service';
-import { IconService } from './demo/service/icon.service';
-import { NodeService } from './demo/service/node.service';
-import { PhotoService } from './demo/service/photo.service';
-
+import { NotfoundComponent } from './app-management/components/notfound/notfound.component';
+import { ProductService } from './app-management/service/product.service';
+import { CountryService } from './app-management/service/country.service';
+import { CustomerService } from './app-management/service/customer.service';
+import { EventService } from './app-management/service/event.service';
+import { IconService } from './app-management/service/icon.service';
+import { NodeService } from './app-management/service/node.service';
+import { PhotoService } from './app-management/service/photo.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 @NgModule({
     declarations: [
         AppComponent, NotfoundComponent
+
     ],
     imports: [
         AppRoutingModule,
@@ -23,7 +25,7 @@ import { PhotoService } from './demo/service/photo.service';
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService
+        PhotoService, ProductService,AuthGuard,JwtHelperService
     ],
     bootstrap: [AppComponent]
 })
