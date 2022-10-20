@@ -1,0 +1,206 @@
+<p-toast></p-toast>
+<!-- <app-table-control [btnDeactive]="true"></app-table-control> -->
+<div class = card>
+    <div >
+        <div class="col-12  ">
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="getDataAccount()" ></button>
+                        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"  ></button>
+                    </div>
+                </ng-template>
+
+                <!-- <ng-template pTemplate="right">
+                    <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
+                    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
+                </ng-template> -->
+            </p-toolbar>
+            <p-table #dt1 [value]="accountList" [selection]="listSelection"   responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['name','country.name','representative.name','status']" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" selectionMode="multiple" [rowHover]="true" dataKey="id">
+            <!-- <ng-template pTemplate="caption">
+                <div class="flex">
+    
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
+                    </span>
+                </div>
+            </ng-template> -->
+            <ng-template pTemplate="header">
+                <tr>
+                    
+                    <th style="width: 3rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th>
+                        <div >
+                            Username
+                            <p-columnFilter type="text" field="username" display="menu"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th>
+                        <div>
+                            Status
+                            <p-columnFilter type="text" field="status" display="menu"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th>
+                        <div >
+                            Role
+                            <p-columnFilter type="text" field="role" display="menu"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th>
+                        <div>
+                            Permission
+                            <p-columnFilter type="text" field="permission" display="menu"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th style="width: 4rem"></th>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="body" let-obj>
+                <tr>
+                    <td>
+                        <p-tableCheckbox [value]="obj"></p-tableCheckbox>
+                    </td>
+                    <td>{{obj.username}}</td>
+                    <td>{{obj.status}}</td>
+                    <td>{{obj.role}}</td>
+                    <td>{{obj.permission}}</td>
+                    <td>
+                        <div class="flex">
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="showUpdateForm(obj)" ></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="confirmDelete(obj)"></button>
+                        </div>
+                    </td>
+                </tr>
+
+
+            </ng-template>
+
+    
+                
+            </p-table>
+
+            <p-dialog [(visible)]="showCreateDialog" [minY]="1000" [maximizable]="true" [resizable]="false"  [contentStyle]="{'overflow': 'scroll'}"  [responsive]="true" [draggable]="false" header="Create Account" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" class="p-fluid" [style]="{width:'50vw', height: '30vw'}" [modal]="true">
+
+                <ng-template pTemplate="content">
+                    <div class = "grid">
+                        <div class = "col-12 lg:col-4 ">
+                            <div class="field">
+                                <label for="name">Username</label>
+                                <input type="text" pTooltip="Username" tooltipPosition="bottom"  pInputText id="name" [(ngModel)]="accountModel.userName" required autofocus placeholder="Username" [ngClass]="{'ng-invalid ng-dirty' : !accountModel.userName}" />
+                                <small class="ng-dirty ng-invalid" style="color: red;" *ngIf="!accountModel.userName">Username is required.</small>
+                            </div>
+
+                        </div>
+                        <div class = "col-12 lg:col-4 ">
+                            <div class="field">
+                                <label for="password">Password</label>
+                                <input id="password" pTooltip="Password" tooltipPosition="bottom"  pInputText [(ngModel)]="accountModel.passWord" required autofocus placeholder="Password" />
+                                <small class="ng-dirty ng-invalid" style="color: red;" *ngIf="!accountModel.passWord">Password is required.</small>
+                            </div>
+
+                        </div>
+                        <div class = "col-12 lg:col-4 ">
+                            <div class="field">
+                                <label for="email">Email</label>
+                                <input id="email" pTooltip="Email" tooltipPosition="bottom"  pInputText [(ngModel)]="accountModel.email" required autofocus placeholder="abcd@gmail.com">
+                                <small class="ng-dirty ng-invalid" style="color: red;" *ngIf="!accountModel.email">Email is required.</small>
+                            
+                            </div>
+
+                        </div>
+                        <div class = "col-12 lg:col-6">
+                            <div class="field">
+                                <label for="role">Role</label>
+                                <p-multiSelect id="role" defaultLabel="Select role" autofocus [options]="roleList" [(ngModel)]="roleSelected" optionLabel="name" optionValue="name" display="chip"></p-multiSelect>
+                            </div>
+                        </div>
+                        <div class = "col-12 lg:col-6">
+                            <div class="field">
+                                <label for="per">Permission</label>
+                                <p-multiSelect id="per" defaultLabel="Select permission" [options]="permissionList" [(ngModel)]="permissionSelected" optionLabel="name" optionValue="name" display="chip"></p-multiSelect>
+                            </div>
+                        </div>
+                        <div class ="col-12">
+                         
+                        </div>
+
+                    </div>
+                   
+                  
+                </ng-template>
+    
+                <ng-template pTemplate="footer">
+                    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="cancel()" ></button>
+                    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="createAccount()" ></button>
+                </ng-template>
+            </p-dialog>
+            <p-dialog [(visible)]="showUpdateDialog" [minY]="1000" [maximizable]="true" [resizable]="false"  [contentStyle]="{'overflow': 'scroll'}"  [responsive]="true" [draggable]="false" header="Update Account" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" class="p-fluid" [style]="{width:'50vw', height: '30vw'}" [modal]="true">
+
+                <ng-template pTemplate="content">
+                    <div class = "grid">
+                        <div class = "col-12 lg:col-4 ">
+                            <div class="field">
+                                <label for="name">Username</label>
+                                <input type="text" pTooltip="Username" tooltipPosition="bottom"  pInputText id="name" disabled="true" [(ngModel)]="accountModel.userName" required autofocus placeholder="Username" [ngClass]="{'ng-invalid ng-dirty' : !accountModel.userName}" />
+                                <!-- <small class="ng-dirty ng-invalid" style="color: red;" *ngIf="!accountModel.userName">Username is required.</small> -->
+                            </div>
+
+                        </div>
+                        <div class = "col-12 lg:col-4 ">
+                            <div class="field">
+                                <label for="password">Password</label>
+                                <input id="password" pTooltip="Password" tooltipPosition="bottom"  pInputText [(ngModel)]="accountModel.passWord" required autofocus placeholder="Password" />
+                                <!-- <small class="ng-dirty ng-invalid" style="color: red;" *ngIf="!accountModel.passWord">Password is required.</small> -->
+                            </div>
+
+                        </div>
+                        <div class = "col-12 lg:col-4 ">
+                            <div class="field">
+                                <label for="email">Email</label>
+                                <input id="email" pTooltip="Email" tooltipPosition="bottom"  pInputText [(ngModel)]="accountModel.email" required autofocus placeholder="abcd@gmail.com">
+                                <!-- <small class="ng-dirty ng-invalid" style="color: red;" *ngIf="!accountModel.email">Email is required.</small> -->
+                            
+                            </div>
+
+                        </div>
+                        <div class = "col-12 lg:col-4">
+                            <div class="field">
+                                <label for="role">Role</label>
+                                <p-multiSelect id="role" defaultLabel="Select role" autofocus [options]="roleList" [(ngModel)]="roleSelected" optionLabel="name" optionValue="name" display="chip"></p-multiSelect>
+                            </div>
+                        </div>
+                        <div class = "col-12 lg:col-4">
+                            <div class="field">
+                                <label for="per">Permission</label>
+                                <p-multiSelect id="per" defaultLabel="Select permission" [options]="permissionList" [(ngModel)]="permissionSelected" optionLabel="name" optionValue="name" display="chip"></p-multiSelect>
+                            </div>
+                        </div>
+                        <div class = "col-12 lg:col-4">
+                            <div class="field">
+                                <label for="status">Status</label>
+                                <p-dropdown id="status" [options]="statusList" optionValue="value" [(ngModel)]="accountModel.status" placeholder="Select status" optionLabel="name" [showClear]="true"></p-dropdown>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                   
+                  
+                </ng-template>
+    
+                <ng-template pTemplate="footer">
+                    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="cancelUpdate()" ></button>
+                    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="updateAccountFunc()" ></button>
+                </ng-template>
+            </p-dialog>
+            <p-confirmDialog [style]="{width: '20vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+        </div>
+    </div>
+
+</div>

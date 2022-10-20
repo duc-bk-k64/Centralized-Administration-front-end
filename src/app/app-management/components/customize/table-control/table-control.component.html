@@ -1,0 +1,23 @@
+<!-- <ng-container *ngIf="btnActive">
+    <button pButton pRipple icon="{{'common.button.icon.view'|translate}}"
+            type="button" class="{{'common.button.class.table.view'|translate}}"
+            pTooltip="" tooltipPosition="top"
+            (click)="preView(entity)"  ></button>
+</ng-container> -->
+<ng-container >
+    <button pButton pRipple icon="pi pi-ban"
+            type="button" ></button>
+</ng-container>
+<!-- <ng-container *ngIf="btnUpdate">
+    <button pButton pRipple icon="{{'common.button.icon.update'|translate}}"
+            type="button" class="{{'common.button.class.table.update'|translate}}"
+            pTooltip="{{'common.button.update'|translate}}" tooltipPosition="top"
+            *appPermissions="['U']" [disabled]="isAllowUpdate" (click)="preUpdate(entity, $event)"></button>
+</ng-container>
+<ng-container *ngIf="btnDelete">
+    <button pButton pRipple icon="{{'common.button.icon.delete'|translate}}"
+            type="button" class="{{'common.button.class.table.delete'|translate}}"
+            pTooltip="{{'common.button.delete'|translate}}" tooltipPosition="top"
+            *appPermissions="['D']" [disabled]="isAllowDelete" (click)="preDelete(entity, $event, reloadList)"></button>
+</ng-container> -->
+<ng-content></ng-content>

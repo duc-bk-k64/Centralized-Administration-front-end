@@ -4,6 +4,7 @@ export class AppRoutingUrl {
        
         login: 'auth/login',
         dashboard: '',
+        access_denied: 'auth/access'
       
     };
 }

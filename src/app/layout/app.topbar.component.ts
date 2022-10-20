@@ -1,4 +1,5 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AuthService } from 'src/app/app-management/service/auth.service';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { LayoutService } from "./service/app.layout.service";
 
@@ -6,7 +7,7 @@ import { LayoutService } from "./service/app.layout.service";
     selector: 'app-topbar',
     templateUrl: './app.topbar.component.html'
 })
-export class AppTopBarComponent {
+export class AppTopBarComponent implements OnInit {
 
     items!: MenuItem[];
 
@@ -16,5 +17,14 @@ export class AppTopBarComponent {
 
     @ViewChild('topbarmenu') menu!: ElementRef;
 
-    constructor(public layoutService: LayoutService) { }
+    constructor(public layoutService: LayoutService,private authService: AuthService) { }
+    ngOnInit() {
+       this.username=this.authService.getUsername();
+    }
+    isShowDialog: boolean = false;
+    username:any;
+    position: string ='top-right';
+    showDialog() {
+        this.isShowDialog=true;
+    }
 }

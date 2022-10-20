@@ -1,0 +1,93 @@
+
+<p-dialog [(visible)]="parentComponent.showGroupDialog"  [maximizable]="true" [resizable]="false"  [contentStyle]="{'overflow': 'scroll'}"  [responsive]="true" [draggable]="false" header="Application detail" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" class="p-fluid" [style]="{width:'50vw', height: '30vw'}" [modal]="true">
+
+    <ng-template pTemplate="content">
+    <div class="grid">    
+        <div class="col-12 lg:col-4">
+            <div class="field">
+                <label for="name">Application name</label>
+                <input type="text" pTooltip="Application name" tooltipPosition="bottom"  pInputText id="name" disabled="true" [(ngModel)]="parentComponent.selectedApplication.app_name" required autofocus placeholder="Username" [ngClass]="{'ng-invalid ng-dirty' : !parentComponent.selectedApplication.app_name}" />
+            </div>
+        </div>
+        <div class="col-12 lg:col-4">
+            <div class="field">
+                <label for="status">Status</label>
+                <p-dropdown id="status" [options]="statusList" pTooltip="Select status if you want to change application status" optionValue="value" [(ngModel)]="status" placeholder="Select status" optionLabel="name" [showClear]="true"></p-dropdown>
+
+            </div>
+
+        </div>
+        <div class="col-12">
+            <div class="field">
+                <p-table [value]="parentComponent.group" dataKey="id" responsiveLayout="scroll">
+                   
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 3rem"></th>
+                            <th pSortableColumn="group_name">Group name <p-sortIcon field="group_name"></p-sortIcon></th>
+                            <th pSortableColumn="group_code">Group code <p-sortIcon field="group_code"></p-sortIcon></th>
+                            <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+                            <th style="width: 3rem"></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-group let-expanded="expanded">
+                        <tr>
+                            <td>
+                                <button type="button" pButton pRipple [pRowToggler]="group" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                            </td>
+                            <td>{{group.group_name}}</td>
+                            <td>{{group.group_code}}</td>
+                            <td>{{group.status}}</td>
+                            <td><p-button type="button" class="p-button-text" pTooltip="Delete group" icon="pi pi-trash" (click)="deleteGroupMapApp(group)"></p-button></td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="rowexpansion" let-group>
+                        <tr>
+                            <td colspan="7">
+                                <div class="p-3">
+                                    <p-table [value]="group.user" dataKey="id">
+                                        <ng-template pTemplate="caption">
+                                            <h5>User details</h5>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th pSortableColumn="username">Username <p-sortIcon field="username"></p-sortIcon></th>
+                                                <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+                                                <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+                                                <!-- <th style="width: 3rem"></th> -->
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-user>
+                                            <tr>
+                                                <td>{{user.username}}</td>
+                                                <td>{{user.email}}</td>
+                                                <td>{{user.status}}</td>
+                                                <!-- <td><p-button type="button" class="p-button-text" icon="pi pi-trash" (click)="deleteGroupMapApp(user)"></p-button></td> -->
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="emptymessage">
+                                            <tr>
+                                                <td colspan="6">There are no user in this group.</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="6">There are no group in this application.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <!-- <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"  ></button> -->
+        <button pButton pRipple label="Ok" icon="pi pi-check" class="p-button-text" (click)="closeGroupDialog()"  ></button>
+    </ng-template>
+
+</p-dialog>

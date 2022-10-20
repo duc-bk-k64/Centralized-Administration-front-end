@@ -13,11 +13,7 @@
     </button>
 
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <button class="p-link layout-topbar-button">
-            <i class="pi pi-calendar"></i>
-            <span>Calendar</span>
-        </button>
-        <button class="p-link layout-topbar-button">
+        <button class="p-link layout-topbar-button" (click)="showDialog()">
             <i class="pi pi-user"></i>
             <span>Profile</span>
         </button>
@@ -27,3 +23,7 @@
         </button>
     </div>
 </div>
+<p-dialog [(visible)]="isShowDialog" [position]="position" [maximizable]="true" [resizable]="false"  [contentStyle]="{'overflow': 'scroll'}"  [responsive]="true" [draggable]="false" header="Profile" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" class="p-fluid" [style]="{width:'20vw', height: '15vw'}" [modal]="true">
+    
+   
+</p-dialog>

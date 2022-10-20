@@ -12,7 +12,9 @@ import { EventService } from './app-management/service/event.service';
 import { IconService } from './app-management/service/icon.service';
 import { NodeService } from './app-management/service/node.service';
 import { PhotoService } from './app-management/service/photo.service';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { AuthGuardAdmin } from './app-management/service/auth-guard-admin';
 @NgModule({
     declarations: [
         AppComponent, NotfoundComponent
@@ -25,7 +27,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService,AuthGuard,JwtHelperService
+        PhotoService, ProductService,AuthGuard,JwtHelperService,{ provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+        MessageService,AuthGuardAdmin,ConfirmationService
     ],
     bootstrap: [AppComponent]
 })
